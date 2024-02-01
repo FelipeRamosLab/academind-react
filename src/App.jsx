@@ -35,10 +35,7 @@ function App() {
           <h2>Core Concepts</h2>
 
           <ul>
-            <CoreConcept {...CORE_CONCEPTS[0]} />
-            <CoreConcept {...CORE_CONCEPTS[1]} />
-            <CoreConcept {...CORE_CONCEPTS[2]} />
-            <CoreConcept {...CORE_CONCEPTS[3]} />
+            {CORE_CONCEPTS.map(concept => <CoreConcept {...concept} />)}
           </ul>
         </section>
 
