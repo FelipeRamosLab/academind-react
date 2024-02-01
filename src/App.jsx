@@ -7,6 +7,20 @@ import { EXAMPLES } from './data';
 
 function App() {
   const [ selected, setSelected ] = useState('Please click a button!');
+
+  let tabContent = <p>{selected}</p>;
+
+  if (EXAMPLES[selected]) {
+    tabContent = (<>
+      <h3>{EXAMPLES[selected].title}</h3>
+      <p>{EXAMPLES[selected].description}</p>
+
+      <pre>
+        <code>{EXAMPLES[selected].code}</code>
+      </pre>
+    </>);
+  }
+
   function handleSelect(selectedButton) {
     setSelected(selectedButton);
     console.log(selected);
@@ -38,14 +52,9 @@ function App() {
             <TabButton onSelect={() => handleSelect('state')}>State</TabButton>
           </menu>
 
-          {EXAMPLES[selected] ? <div id="tab-content">
-            <h3>{EXAMPLES[selected].title}</h3>
-            <p>{EXAMPLES[selected].description}</p>
-
-            <pre>
-              <code>{EXAMPLES[selected].code}</code>
-            </pre>
-          </div> : <p>{selected}</p>}
+          <div id="tab-content">
+            {tabContent}
+          </div>
         </section>
       </main>
     </div>
