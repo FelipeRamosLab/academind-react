@@ -1,6 +1,6 @@
-export default function Tabs({ buttons, children }) {
+export default function Tabs({ buttons, ButtonsContainer, children }) {
     return (<>
-        <menu>{buttons}</menu>
+        <ButtonsContainer>{buttons}</ButtonsContainer>
         {children}
     </>);
 }
