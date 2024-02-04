@@ -2,6 +2,7 @@ import { useState } from 'react';
 import TabButton from './TabButton.jsx';
 import { EXAMPLES } from '../data.js';
 import Section from './Section.jsx';
+import Tabs from './Tabs.jsx';
 
 export default function CoreConcepts() {
     const [selectedTopic, setSelectedTopic] = useState();
@@ -27,7 +28,7 @@ export default function CoreConcepts() {
     }
     return (
         <Section id="examples" title="Examples">
-            <menu>
+            <Tabs buttons={<>
                 <TabButton
                     isSelected={selectedTopic === 'components'}
                     onClick={() => handleSelect('components')}
@@ -52,8 +53,9 @@ export default function CoreConcepts() {
                 >
                     State
                 </TabButton>
-            </menu>
-            {tabContent}
+            </>}>
+                {tabContent}
+            </Tabs>
         </Section>
     );
 }
