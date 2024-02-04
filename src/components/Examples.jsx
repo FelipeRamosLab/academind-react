@@ -28,7 +28,7 @@ export default function CoreConcepts() {
     }
     return (
         <Section id="examples" title="Examples">
-            <Tabs buttons={<>
+            <Tabs ButtonsContainer="menu" buttons={<>
                 <TabButton
                     isSelected={selectedTopic === 'components'}
                     onClick={() => handleSelect('components')}
