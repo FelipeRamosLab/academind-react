@@ -22,6 +22,10 @@ function deriveActivePlayer(gameTurns) {
 }
 
 function App() {
+  const [ players, setPlayers ] = useState({
+    X: 'Player 1',
+    Y: 'Player 2'
+  });
   const [gameTurns, setGameTurns] = useState([]);
   // const [activePlayer, setActivePlayer] = useState('X');
   const activePlayer = deriveActivePlayer(gameTurns);
@@ -62,6 +66,15 @@ function App() {
 
   function handleRestart() {
     setGameTurns([]);
+  }
+
+  function handlePlayerNameChange(symbol, newName) {
+    setPlayers(prev => {
+      return {
+        ...prev,
+        [symbol]: newName
+      };
+    });
   }
 
   return (
