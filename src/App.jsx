@@ -5,7 +5,11 @@ import Log from './components/Log';
 import { WINNING_COMBINATIONS } from './winning-combinations';
 import GameOver from './components/GameOver';
 
-const initialGameBoard = [
+const PLAYERS = {
+  X: 'Player 1',
+  O: 'Player 2'
+}
+const INITIAL_GAMEBOARD = [
   [null, null, null],
   [null, null, null],
   [null, null, null]
@@ -21,23 +25,8 @@ function deriveActivePlayer(gameTurns) {
   return currentPlayer;
 }
 
-function App() {
-  const [ players, setPlayers ] = useState({
-    X: 'Player 1',
-    Y: 'Player 2'
-  });
-  const [gameTurns, setGameTurns] = useState([]);
-  // const [activePlayer, setActivePlayer] = useState('X');
-  const activePlayer = deriveActivePlayer(gameTurns);
-  let gameBoard = [...initialGameBoard.map(array => [...array])];
+function deriveWinner(gameBoard, players) {
   let winner;
-
-  for (const turn of gameTurns) {
-    const { square, player } = Object(turn);
-    const { row, col } = Object(square);
-
-    gameBoard[row][col] = player;
-  }
 
   for (const combination of WINNING_COMBINATIONS) {
     const firstSquareSymbol = gameBoard[combination[0].row][combination[0].column];
@@ -49,10 +38,31 @@ function App() {
     }
   }
 
+  return winner;
+}
+
+function deriveGameBoard(gameTurns) {
+  let gameBoard = [...INITIAL_GAMEBOARD.map(array => [...array])];
+
+  for (const turn of gameTurns) {
+    const { square, player } = Object(turn);
+    const { row, col } = Object(square);
+
+    gameBoard[row][col] = player;
+  }
+
+  return gameBoard;
+}
+
+function App() {
+  const [ players, setPlayers ] = useState(PLAYERS);
+  const [gameTurns, setGameTurns] = useState([]);
+  const activePlayer = deriveActivePlayer(gameTurns);
+  const gameBoard = deriveGameBoard(gameTurns);
+  const winner = deriveWinner(gameBoard, players);
   const hasDraw = gameTurns.length === 9 && !winner;
 
   function handleSelectedSquare(rowIndex, colIndex) {
-    // setActivePlayer(prev => prev === 'X' ? 'O' : 'X');
     setGameTurns(prev => {
       const currentPlayer = deriveActivePlayer(prev);
       const update = [
@@ -81,8 +91,8 @@ function App() {
     <main>
       <div id="game-container">
         <ol id="players" className="highlight-player">
-          <Player name="Player 1" symbol="X" isActive={activePlayer === 'X'} onChangeName={handlePlayerNameChange} />
-          <Player name="Player 2" symbol="O" isActive={activePlayer === 'O'} onChangeName={handlePlayerNameChange} />
+          <Player name={PLAYERS.X} symbol="X" isActive={activePlayer === 'X'} onChangeName={handlePlayerNameChange} />
+          <Player name={PLAYERS.O} symbol="O" isActive={activePlayer === 'O'} onChangeName={handlePlayerNameChange} />
         </ol>
 
         {(winner || hasDraw) && <GameOver winner={winner} onRestart={handleRestart} />}
