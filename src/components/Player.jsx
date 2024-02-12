@@ -20,7 +20,7 @@ export default function Player({ name, symbol, isActive, onChangeName }) {
     let btnCaption = 'Edit';
 
     if (isEditing) {
-        playerNameElt = <input required value={playerName} onChange={handleChange} />;
+        playerNameElt = <input required value={playerName} onKeyUp={handleChange} />;
         btnCaption = 'Save';
     }
 
