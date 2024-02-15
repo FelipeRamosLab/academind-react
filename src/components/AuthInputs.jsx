@@ -1,4 +1,14 @@
 import { useState } from 'react';
+import { styled } from 'styled-components';
+
+
+const Label = styled.label`
+  color: ${({$color}) => $color || 'white'};
+`;
+
+const Input = styled.input`
+  font-size: 30px;
+`;
 
 export default function AuthInputs() {
   const [enteredEmail, setEnteredEmail] = useState('');
@@ -24,8 +34,8 @@ export default function AuthInputs() {
     <div id="auth-inputs">
       <div className="controls">
         <p>
-          <label>Email</label>
-          <input
+          <Label $color="red">Email</Label>
+          <Input
             type="email"
             className={emailNotValid ? 'invalid' : undefined}
             onChange={(event) => handleInputChange('email', event.target.value)}
