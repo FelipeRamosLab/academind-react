@@ -9,7 +9,7 @@ function App() {
     projects: []
   });
 
-  function handleAddProject() {
+  function handleStartAddProject() {
     setProjectsState(prev => {
       return {
         ...prev,
@@ -18,11 +18,27 @@ function App() {
     });
   }
 
+  function handleAddProject(projectData) {
+    setProjectsState(prev => {
+      const newProject = {
+        ...projectData,
+        id: Math.random()
+      };
+
+      return {
+        ...prev,
+        projects: [...prev.projects, newProject]
+      }
+    })
+  }
+
+
+  console.log(projectsState)
   let content;
   if (projectsState.selectedProjectId === undefined) {
-    content = <NoProjectSelected onStartAddProject={handleAddProject} />;
+    content = <NoProjectSelected onStartAddProject={handleStartAddProject} />;
   } else if (projectsState.selectedProjectId === null) {
-    content = <NewProject onStartAddProject={handleAddProject} />
+    content = <NewProject onAdd={handleAddProject} />
   }
 
   return (
@@ -32,7 +48,7 @@ function App() {
       'flex',
       'gap-8'
     ].join(' ')}>
-      <ProjectsSidebar onStartAddProject={handleAddProject} />
+      <ProjectsSidebar onStartAddProject={handleStartAddProject} />
       {content}
     </main>
   );
