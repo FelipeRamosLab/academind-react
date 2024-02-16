@@ -1,4 +1,5 @@
 import NewProject from './components/NewProject';
+import NoProjectSelected from './components/NoProjectSelected';
 import ProjectsSidebar from './components/ProjectsSidebar';
 
 function App() {
@@ -10,7 +11,7 @@ function App() {
       'gap-8'
     ].join(' ')}>
       <ProjectsSidebar />
-      <NewProject />
+      <NoProjectSelected />
     </main>
   );
 }
