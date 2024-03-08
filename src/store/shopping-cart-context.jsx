@@ -8,23 +8,9 @@ export const CartContext = createContext({
 });
 
 function shoppingCartReducer(state, action) {
-    return state;
-}
-
-export default function CartContextProvider({ children }) {
-    const [ shoppingCartState, shoppingCartDispatch ] = useReducer(
-        shoppingCartReducer,
-        {
-            items: []
-        }
-    );
-    const [shoppingCart, setShoppingCart] = useState({
-        items: [],
-    });
-
-    function handleAddItemToCart(id) {
-        setShoppingCart((prevShoppingCart) => {
-            const updatedItems = [...prevShoppingCart.items];
+    switch (action.type) {
+        case 'ADD_ITEM': {
+            const updatedItems = [...state.items];
 
             const existingCartItemIndex = updatedItems.findIndex(
                 (cartItem) => cartItem.id === id
@@ -50,12 +36,9 @@ export default function CartContextProvider({ children }) {
             return {
                 items: updatedItems,
             };
-        });
-    }
-
-    function handleUpdateCartItemQuantity(productId, amount) {
-        setShoppingCart((prevShoppingCart) => {
-            const updatedItems = [...prevShoppingCart.items];
+        }
+        case 'UPDATE_ITEM': {
+            const updatedItems = [...state.items];
             const updatedItemIndex = updatedItems.findIndex(
                 (item) => item.id === productId
             );
@@ -75,6 +58,38 @@ export default function CartContextProvider({ children }) {
             return {
                 items: updatedItems,
             };
+        }
+        default: {
+            return state;
+        }
+    }
+}
+
+export default function CartContextProvider({ children }) {
+    const [ shoppingCartState, shoppingCartDispatch ] = useReducer(
+        shoppingCartReducer,
+        {
+            items: []
+        }
+    );
+    const [shoppingCart, setShoppingCart] = useState({
+        items: [],
+    });
+
+    function handleAddItemToCart(id) {
+        shoppingCartDispatch({
+            type: 'ADD_ITEM',
+            payload: id
+        });
+    }
+
+    function handleUpdateCartItemQuantity(productId, amount) {
+        shoppingCartDispatch({
+            type: 'UPDATE_ITEM',
+            payload: {
+                productId,
+                amount
+            }
         });
     }
 
